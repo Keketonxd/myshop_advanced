@@ -23,39 +23,40 @@
                             </tr>
                         </thead>
                         <tfoot>
-                        <tr>
-                            <th class="text-center">Наименование</th>
-                            <th class="text-center">Количество</th>
-                            <th class="text-center">Цена</th>
-                            <th class="text-center">Удален</th>
-                            <th class="text-center">Удалить</th>
-                        </tr>
+                            <tr>
+                                <th class="text-center">Наименование</th>
+                                <th class="text-center">Количество</th>
+                                <th class="text-center">Цена</th>
+                                <th class="text-center">Удален</th>
+                                <th class="text-center">Удалить</th>
+                            </tr>
                         </tfoot>
                         <tbody>
-                        {% for product in product_list %}
+                            {% for product in product_list %}
                             <tr>
-                                <td><a href="{% url 'admin_staff:product_update' product.pk %}" style="color: dodgerblue">{{ product.name }}</a></td>
+                                <td><a href="{% url 'admin_staff:product_update' product.pk %}"
+                                        style="color: dodgerblue">{{ product.name }}</a></td>
                                 <td>{{ user.quantity }}</td>
                                 <td>{{ user.price }}</td>
                                 <td class="text-center">
                                     {% if not product.is_delete %}
-                                        <i class="fa fa-check-circle"></i>
+                                    <i class="fa fa-check-circle"></i>
                                     {% else %}
-                                        <i class="fa fa-times-circle"></i>
+                                    <i class="fa fa-times-circle"></i>
                                     {% endif %}
                                 </td>
                                 <td class="text-center">
                                     <a href="{% url 'admin_staff:product_delete' product.pk %}">Удалить</a>
                                 </td>
                             </tr>
-                        {% endfor %}
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="card-footer">
                 <a href="{% url 'adminapp:product_create' category.pk %}">
-                    <button class="btn btn-success">Создать товара</button>
+                    <button class="btn btn-success">Создать товар</button>
                 </a>
             </div>
         </div>

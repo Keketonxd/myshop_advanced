@@ -10,7 +10,7 @@ from authapp.forms import UserLoginForm, UserRegisterForm, UserEditForm, UserPro
 
 
 def login(request):
-    title = 'входа'
+    title = 'вход'
 
     login_form = UserLoginForm(data=request.POST)
     next = request.GET['next'] if 'next' in request.GET.keys() else ''
@@ -23,7 +23,8 @@ def login(request):
         if user.activated:
             auth.authenticate()
             if user and user.is_active:
-                auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                auth.login(request, user,
+                           backend='django.contrib.auth.backends.ModelBackend')
                 if 'next' in request.POST.keys():
                     return HttpResponseRedirect(request.POST['next'])
                 else:
@@ -52,7 +53,8 @@ def register(request):
 
         if register_form.is_valid():
             register_form.save()
-            messages.success(request, "E-mail с подтверждением отправлен на Вашу элетронную почту")
+            messages.success(
+                request, "E-mail с подтверждением отправлен на Вашу элетронную почту")
             return HttpResponseRedirect(reverse('auth:login'))
     else:
         register_form = UserRegisterForm()
@@ -65,12 +67,12 @@ def register(request):
 @transaction.atomic
 def edit(request):
     title = 'редактирование'
-    
+
     if request.method == 'POST':
-        edit_form = UserEditForm(request.POST, request.FILES, \
-                                     instance=request.user)
-        profile_form = UserProfileEditForm(request.POST, \
-                                     instance=request.user.userprofile)
+        edit_form = UserEditForm(request.POST, request.FILES,
+                                 instance=request.user)
+        profile_form = UserProfileEditForm(request.POST,
+                                           instance=request.user.userprofile)
         if edit_form.is_valid() and profile_form.is_valid():
             edit_form.save()
             return HttpResponseRedirect(reverse('auth:edit'))
@@ -79,13 +81,13 @@ def edit(request):
         profile_form = UserProfileEditForm(
             instance=request.user.userprofile
         )
-    
+
     content = {
-        'title': title, 
-        'edit_form': edit_form, 
+        'title': title,
+        'edit_form': edit_form,
         'profile_form': profile_form
     }
-    
+
     return render(request, 'authapp/edit.html', content)
 
 

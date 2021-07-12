@@ -14,7 +14,6 @@ def index(request):
 
     context = {
         'products': products,
-        'some_name': 'hello',
         'title': title,
         'basket': basket,
     }

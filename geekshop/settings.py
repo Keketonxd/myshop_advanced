@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'basketapp',
     'adminapp',
     'social_django',
+    'ordersapp'
 
 ]
 
@@ -144,7 +145,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "geekshop", "static"),
-    os.path.join(BASE_DIR, "authapp", "static"),
 )
 
 STATICFILES_FINDERS = [

@@ -68,7 +68,8 @@ def user_update(request, pk):
     edit_user = get_object_or_404(User, pk=pk)
 
     if request.method == 'POST':
-        edit_form = UserRegisterForm(request.POST, request.FILES, instance=edit_user)
+        edit_form = UserRegisterForm(
+            request.POST, request.FILES, instance=edit_user)
         if edit_form.is_valid():
             edit_form.save()
 
@@ -134,7 +135,8 @@ def category_update(request, pk):
     edit_category = get_object_or_404(ProductCategory, pk=pk)
 
     if request.method == 'POST':
-        edit_form = ProductCategoryEditForm(request.POST, request.FILES, instance=edit_category)
+        edit_form = ProductCategoryEditForm(
+            request.POST, request.FILES, instance=edit_category)
         if edit_form.is_valid():
             edit_form.save()
             return HttpResponseRedirect(reverse('admin_staff:category_update', args=[edit_category.pk]))
@@ -243,7 +245,8 @@ def product_update(request, pk):
     title = f'продукты/{product.name}'
 
     if request.method == 'POST':
-        product_form = ProductEditForm(request.POST, request.FILES, instance=product)
+        product_form = ProductEditForm(
+            request.POST, request.FILES, instance=product)
         if product_form.is_valid():
             product_form.save()
 

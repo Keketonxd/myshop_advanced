@@ -4,6 +4,15 @@ from django.conf import settings
 from mainapp.models import Product
 
 
+class OrderItemQuerySet(models.QuerySet):
+
+    def delete(self, *args, **kwargs):
+        for object in self:
+            object.product.quantity += object.quantity
+            object.product.save()
+        super(OrderItemQuerySet, self).delete(*args, **kwargs)
+
+
 class Order(models.Model):
     FORMING = 'FM'
     SENT_TO_PROCEED = 'STP'
@@ -24,9 +33,9 @@ class Order(models.Model):
                              on_delete=models.CASCADE)
     created = models.DateTimeField(verbose_name='создан', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='обновлен', auto_now=True)
-    status = models.CharField(verbose_name='статус', 
+    status = models.CharField(verbose_name='статус',
                               max_length=3,
-                              choices=ORDER_STATUS_CHOICES, 
+                              choices=ORDER_STATUS_CHOICES,
                               default=FORMING)
     is_active = models.BooleanField(verbose_name='активен', default=True)
 
@@ -61,10 +70,11 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, 
+    objects = OrderItemQuerySet.as_manager()
+    order = models.ForeignKey(Order,
                               related_name="orderitems",
                               on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, 
+    product = models.ForeignKey(Product,
                                 verbose_name='продукт',
                                 on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name='количество',
